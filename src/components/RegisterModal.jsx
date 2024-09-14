@@ -5,12 +5,16 @@ import "react-responsive-modal/styles.css";
 // import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import VerifyOtp from "./VerifyOtp";
 
 const RegisterModal = ({ isOpen, onClose }) => {
 //   const { language } = useContext(LanguageContext);
+const [verifyModalShow, setVerifyModalShow] = useState(false);
+
 
   const [formData, setFormData] = useState({
     email: "",
+    phone: "",
     wantsMessages: false,
   });
 
@@ -27,7 +31,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
 
     try {
       // Send data to backend
-      const response = await fetch("http://localhost:5000/api/subscribers", {
+      const response = await fetch("http://192.168.8.119:3000/api/users/auth/send-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,6 +42,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
       const data = await response.json();
       if (response.ok) {
         // toast.success(translations[language]["thanks"]);
+        setVerifyModalShow(true);
         toast.success("Thanks for signing up!");
         onClose(); // Close modal on success
       } else {
@@ -73,6 +78,16 @@ const RegisterModal = ({ isOpen, onClose }) => {
                 onChange={handleChange}
                 className="p-3 rounded text-sm border border-gray-300 focus:outline-none focus:border-green-400 mb-4 md:mb-0 md:mr-4 w-72"
               />
+                <input
+                type="phone"
+                name="phone"
+                required
+                // placeholder={translations[language]["email"]}
+                placeholder="Phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="p-3 rounded text-sm border border-gray-300 focus:outline-none focus:border-green-400 mb-4 md:mb-0 md:mr-4 w-72"
+              />
               <div className="flex justify-start w-full gap-2 items-center mb-5 ps-2">
                 <input
                   type="checkbox"
@@ -96,6 +111,8 @@ const RegisterModal = ({ isOpen, onClose }) => {
           </div>
         </div>
       </div>
+      <VerifyOtp isOpen={verifyModalShow} onClose={() => setVerifyModalShow(false)} />
+
     </Modal>
   );
 };
