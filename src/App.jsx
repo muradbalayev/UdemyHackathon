@@ -1,4 +1,4 @@
-import './App.css'
+import './App.scss'
 import RouterApp from './pages/RouterApp'
 
 function App() {

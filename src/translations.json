@@ -1,0 +1,26 @@
+{
+  "az": {
+    "order": "SİFARİŞ ET",
+    "pricingPlans": "Planlar",
+    "header-title": "Hər şey bir fincan qəhvə ilə başlayır!",
+    "fullname": "Ad və Soyad",
+    "email": "E-mail",
+    "notification":"Bildirimlərdən xəbərdar olmaq istəyirsinizmi?",
+    "subscribe": "Abunə olun",
+    "contact": "CoffeeMe ilə əlaqə",
+    "thanks": "Abunə olduğunuz üçün təşəkkürlər!",
+    "errorSubmittingForm": "Müraciət göndərilərkən xəta baş verdi.Zəhmət olmasa yenidən cəhd edin."
+  },
+  "en": {
+    "order": "ORDER NOW",
+    "pricingPlans": "Plans",
+    "header-title": "It all starts with a cup of coffee!",
+    "fullname": "Full Name",
+    "email": "Email",
+    "notification":"Want to be notified of notifications?",
+    "subscribe": "Subscribe",
+    "contact": "Contact CoffeeMe",
+    "thanks": "Thank you for subscribing!",
+    "errorSubmittingForm": "Error submitting Form"
+  }
+}
