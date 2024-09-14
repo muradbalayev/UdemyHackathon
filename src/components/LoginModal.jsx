@@ -1,22 +1,19 @@
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
-// import translations from "../translations.json";
-// import { LanguageContext } from "../context/languageContext";
-// import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import ForgotPassword from "./ForgotPassword/ForgotPassword";
+import { useLoginMutation } from "../redux/services/loginApi"; // Import the hook
 
 const LoginModal = ({ isOpen, onClose }) => {
-    //   const { language } = useContext(LanguageContext);
-
-
     const [forgotPassModalShow, setForgotPassModalShow] = useState(false);
 
     const [formData, setFormData] = useState({
         email: "",
         password: "",
     });
+
+    const [login, { isLoading }] = useLoginMutation(); // Use the login mutation hook
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,30 +27,16 @@ const LoginModal = ({ isOpen, onClose }) => {
         e.preventDefault();
 
         try {
-            // Send data to backend
-            const response = await fetch("http://192.168.8.119:3000/api/users/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                // toast.success(translations[language]["thanks"]);
-                toast.success("Thanks for signing up!");
-                onClose(); // Close modal on success
-            } else {
-                toast.error(data.error ||
-                    'error'
-                    // translations[language]["errorSubmittingForm"]
-                );
-            }
+            // Send data to the backend using the login mutation hook
+          const response =   await login(formData).unwrap();
+          console.log(response)
+            toast.success("Thanks for signing in!");
+            setFormData({ email: "", password: "" }); // Clear the input fields
+            onClose(); // Close modal on success
         } catch (err) {
             // Handle request error
             console.error("Request error:", err);
-            //   toast.error(translations[language]["errorSubmittingForm"]);
+            toast.error('Error signing in');
         }
     };
 
@@ -72,7 +55,6 @@ const LoginModal = ({ isOpen, onClose }) => {
                                     type="email"
                                     name="email"
                                     required
-                                    // placeholder={translations[language]["email"]}
                                     placeholder="Email"
                                     value={formData.email}
                                     onChange={handleChange}
@@ -82,21 +64,20 @@ const LoginModal = ({ isOpen, onClose }) => {
                                     type="password"
                                     name="password"
                                     required
-                                    // placeholder={translations[language]["password"]}
                                     placeholder="Password"
                                     value={formData.password}
                                     onChange={handleChange}
                                     className="p-3 rounded text-sm border border-gray-300 focus:outline-none focus:border-green-400 mb-4 md:mb-0 md:mr-4 w-72"
                                 />
                                 <div className="flex justify-start w-full ps-2">
-                                    <p  onClick={() => setForgotPassModalShow(true)} className="text-sm cursor-pointer hover:text-blue-600">Forget password?</p>
+                                    <p onClick={() => setForgotPassModalShow(true)} className="text-sm cursor-pointer hover:text-blue-600">Forgot password?</p>
                                 </div>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-[#00FF84] font-bold rounded hover:bg-[#45ed7a] transition-all md:w-40 sm:w-36 w-32"
+                                    className={`px-4 py-2 bg-[#00FF84] font-bold rounded hover:bg-[#45ed7a] transition-all md:w-40 sm:w-36 w-32 ${isLoading ? 'bg-gray-400 cursor-not-allowed' : ''}`}
+                                    disabled={isLoading}
                                 >
-                                    Sign In
-                                    {/* {translations[language]["subscribe"]} */}
+                                    {isLoading ? 'Signing In...' : 'Sign In'}
                                 </button>
                             </form>
                         </div>
@@ -105,7 +86,6 @@ const LoginModal = ({ isOpen, onClose }) => {
             </Modal>
 
             <ForgotPassword isOpen={forgotPassModalShow} onClose={() => setForgotPassModalShow(false)} />
-
         </>
     );
 };

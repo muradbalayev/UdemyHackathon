@@ -3,15 +3,17 @@ import "react-responsive-modal/styles.css";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import VerifyOtp from "./VerifyOtp";
+import { useSendOtpMutation } from "../redux/services/registerApi";
 
 const RegisterModal = ({ isOpen, onClose }) => {
   const [verifyModalShow, setVerifyModalShow] = useState(false);
-
   const [formData, setFormData] = useState({
     email: "",
     phone: "",
     wantsMessages: false,
   });
+
+  const [sendOtp, { isLoading }] = useSendOtpMutation(); // Use the hook
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -23,27 +25,17 @@ const RegisterModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      // Send data to backend
-      const response = await fetch("http://192.168.8.119:3000/api/users/auth/send-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        toast.success("Thanks for signing up!");
-        onClose(); // Close RegisterModal
-        setTimeout(() => {
-          setVerifyModalShow(true); // Open VerifyOtp modal after RegisterModal closes
-        }, 300); // Optional small delay for smooth transition
-      } else {
-        toast.error(data.error || 'Error submitting form');
-      }
+      // Use the mutation hook to send OTP
+      await sendOtp(formData).unwrap();
+  
+      toast.success("Thanks for signing up!");
+      onClose(); // Close RegisterModal
+      setTimeout(() => {
+        setVerifyModalShow(true); // Open VerifyOtp modal after RegisterModal closes
+      }, 300); // Optional small delay for smooth transition
+  
     } catch (err) {
       console.error("Request error:", err);
       toast.error('Error submitting form');
@@ -68,7 +60,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
                   className="p-3 rounded text-sm border border-gray-300 focus:outline-none focus:border-green-400 mb-4 w-72"
                 />
                 <input
-                  type="phone"
+                  type="text"
                   name="phone"
                   required
                   placeholder="Phone"
@@ -85,8 +77,12 @@ const RegisterModal = ({ isOpen, onClose }) => {
                   />
                   <p className="text-gray text-xs">Want to be notified of notifications?</p>
                 </div>
-                <button type="submit" className="px-4 py-2 bg-[#00FF84] font-bold rounded hover:bg-[#45ed7a] transition-all md:w-40">
-                  Sign Up
+                <button 
+                  type="submit" 
+                  className={`px-4 py-2 font-bold rounded md:w-40 ${isLoading ? 'bg-gray-400' : 'bg-[#00FF84] hover:bg-[#45ed7a] transition-all'}`}
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Signing Up...' : 'Sign Up'}
                 </button>
               </form>
             </div>
@@ -95,7 +91,12 @@ const RegisterModal = ({ isOpen, onClose }) => {
       </Modal>
 
       {/* VerifyOtp Modal */}
-      <VerifyOtp isOpen={verifyModalShow} onClose={() => setVerifyModalShow(false)} />
+      <VerifyOtp 
+        isOpen={verifyModalShow} 
+        onClose={() => setVerifyModalShow(false)} 
+        email={formData.email} 
+        phone={formData.phone} 
+      />
     </>
   );
 };
