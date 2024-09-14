@@ -4,7 +4,7 @@ import AdminPage from './Admin/AdminPage'
 
 const RouterApp = () => {
     return (
-        <div className='h-screen w-full'>
+        <div className='h-screen max-w-[1920px] mx-auto'>
             <BrowserRouter>
                 <Routes>
                     <Route element={<HomePage />} path="/" />
