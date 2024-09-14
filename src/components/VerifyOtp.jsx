@@ -58,13 +58,13 @@ const VerifyOtp = ({ isOpen, onClose }) => {
         <Modal open={isOpen} onClose={onClose} center>
             <div className="md:p-12 sm:p-8 p-4 bg-gradient-to-br from-[#f3f4f50f] to-[#54be9539]">
                 <div className="text-center my-6 md:mb-0">
-                    <h1 className="text-3xl font-bold">Sign In</h1>
+                    <h1 className="text-3xl font-bold">Verify Otp</h1>
                     <div className="mt-8">
                         <form
                             onSubmit={handleSubmit}
                             className="flex flex-col items-center md:gap-4"
                         >
-                              <input
+                            <input
                                 type="date"
                                 name="birthDate"
                                 required
@@ -74,15 +74,18 @@ const VerifyOtp = ({ isOpen, onClose }) => {
                                 onChange={handleChange}
                                 className="p-3 rounded text-sm border border-gray-300 focus:outline-none focus:border-green-400 mb-4 md:mb-0 md:mr-4 w-72"
                             />
-                          <select>
-                            <option>
-                                Male
-                            </option>
-                            <option>
-                                Female
-                            </option>
-                          </select>
-                          <input
+                            <select
+                                value={formData.gender || "Select Gender"}
+                                className="py-3 rounded text-sm px-2 border border-gray-300 focus:border-green-400 outline-none mb-4 md:mb-0 md:mr-4 w-72">
+                                <option disabled>Select Gender</option>
+                                <option>
+                                    Male
+                                </option>
+                                <option>
+                                    Female
+                                </option>
+                            </select>
+                            <input
                                 type="text"
                                 name="otp"
                                 required

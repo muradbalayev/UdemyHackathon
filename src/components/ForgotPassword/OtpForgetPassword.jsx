@@ -5,17 +5,14 @@ import "react-responsive-modal/styles.css";
 // import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { useState } from "react";
-import ForgotPassword from "./ForgotPassword/ForgotPassword";
+import NewPass from "./NewPass";
 
-const LoginModal = ({ isOpen, onClose }) => {
+const OtpForgotPassword = ({ isOpen, onClose }) => {
     //   const { language } = useContext(LanguageContext);
-
-
-    const [forgotPassModalShow, setForgotPassModalShow] = useState(false);
+    const [newPassModalShow, setNewPassModalShow] = useState(false);
 
     const [formData, setFormData] = useState({
-        email: "",
-        password: "",
+        otp: "",
     });
 
     const handleChange = (e) => {
@@ -31,7 +28,7 @@ const LoginModal = ({ isOpen, onClose }) => {
 
         try {
             // Send data to backend
-            const response = await fetch("http://192.168.8.119:3000/api/users/auth/login", {
+            const response = await fetch("http://192.168.8.119:3000/api/users/auth/forgot-password-otp-confirm", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -44,6 +41,9 @@ const LoginModal = ({ isOpen, onClose }) => {
                 // toast.success(translations[language]["thanks"]);
                 toast.success("Thanks for signing up!");
                 onClose(); // Close modal on success
+                setTimeout(() => {
+                    setNewPassModalShow(true); // Open VerifyOtp modal after RegisterModal closes
+                }, 300);
             } else {
                 toast.error(data.error ||
                     'error'
@@ -62,40 +62,27 @@ const LoginModal = ({ isOpen, onClose }) => {
             <Modal open={isOpen} onClose={onClose} center>
                 <div className="md:p-12 sm:p-8 p-4 bg-gradient-to-br from-[#f3f4f50f] to-[#54be9539]">
                     <div className="text-center my-6 md:mb-0">
-                        <h1 className="text-3xl font-bold">Sign In</h1>
+                        <h1 className="text-3xl font-bold">Verify OTP</h1>
                         <div className="mt-8">
                             <form
                                 onSubmit={handleSubmit}
                                 className="flex flex-col items-center md:gap-4"
                             >
                                 <input
-                                    type="email"
-                                    name="email"
-                                    required
-                                    // placeholder={translations[language]["email"]}
-                                    placeholder="Email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    className="p-3 rounded text-sm border border-gray-300 focus:outline-none focus:border-green-400 mb-4 md:mb-0 md:mr-4 w-72"
-                                />
-                                <input
-                                    type="password"
-                                    name="password"
+                                    type="text"
+                                    name="otp"
                                     required
                                     // placeholder={translations[language]["password"]}
-                                    placeholder="Password"
-                                    value={formData.password}
+                                    placeholder="Email"
+                                    value={formData.otp}
                                     onChange={handleChange}
                                     className="p-3 rounded text-sm border border-gray-300 focus:outline-none focus:border-green-400 mb-4 md:mb-0 md:mr-4 w-72"
                                 />
-                                <div className="flex justify-start w-full ps-2">
-                                    <p  onClick={() => setForgotPassModalShow(true)} className="text-sm cursor-pointer hover:text-blue-600">Forget password?</p>
-                                </div>
                                 <button
                                     type="submit"
                                     className="px-4 py-2 bg-[#00FF84] font-bold rounded hover:bg-[#45ed7a] transition-all md:w-40 sm:w-36 w-32"
                                 >
-                                    Sign In
+                                    Verify OTP
                                     {/* {translations[language]["subscribe"]} */}
                                 </button>
                             </form>
@@ -103,11 +90,10 @@ const LoginModal = ({ isOpen, onClose }) => {
                     </div>
                 </div>
             </Modal>
-
-            <ForgotPassword isOpen={forgotPassModalShow} onClose={() => setForgotPassModalShow(false)} />
+            <NewPass isOpen={newPassModalShow} onClose={() => setNewPassModalShow(false)} />
 
         </>
     );
 };
 
-export default LoginModal;
+export default OtpForgotPassword;
