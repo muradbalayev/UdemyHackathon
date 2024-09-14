@@ -3,9 +3,11 @@ import "react-responsive-modal/styles.css";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import VerifyOtp from "./VerifyOtp";
+import { useSendOtpMutation } from "../store/authSlice/api";
 
 const RegisterModal = ({ isOpen, onClose }) => {
   const [verifyModalShow, setVerifyModalShow] = useState(false);
+  const [sendtOtp] = useSendOtpMutation();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -26,15 +28,9 @@ const RegisterModal = ({ isOpen, onClose }) => {
 
     try {
       // Send data to backend
-      const response = await fetch("http://192.168.8.119:3000/api/users/auth/send-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await sendtOtp(formData);
 
-      const data = await response.json();
+      const data = response.data;
       if (response.ok) {
         toast.success("Thanks for signing up!");
         onClose(); // Close RegisterModal
@@ -95,7 +91,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
       </Modal>
 
       {/* VerifyOtp Modal */}
-      <VerifyOtp isOpen={verifyModalShow} onClose={() => setVerifyModalShow(false)} />
+      <VerifyOtp params={formData} isOpen={verifyModalShow} onClose={() => setVerifyModalShow(false)} />
     </>
   );
 };
