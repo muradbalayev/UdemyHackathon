@@ -37,8 +37,11 @@ const RegisterModal = ({ isOpen, onClose }) => {
       }, 300); // Optional small delay for smooth transition
   
     } catch (err) {
-      console.error("Request error:", err);
-      toast.error('Error submitting form');
+      console.error("Request error:", err);if ('data' in err) {
+        toast.error(err.data.message);
+      } else {
+        toast.error('Error verifying OTP');
+      }
     }
   };
 

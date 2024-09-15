@@ -1,29 +1,34 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Category from "./Category"
+import { useSelector } from "react-redux";
 
 function CategoryList() {
+  const [courses, setCourses] = useState([]);
+  const { accessToken } = useSelector(state => state.auth);
   useEffect(() => {
-
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch(`http://192.168.8.119:3000/api/users/courses/`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${accessToken}`
+          }
+        })
+        const data = await response.json();
+        setCourses(data.courses);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+        setCourses([]);
+      }
+    }
+    fetchCourses();
   }, [])
 
-  const data = [
-    {
-      "id": "60d0fe4f5311236168a109cb",
-      "title": "Introduction to Programming",
-      "description": "A comprehensive course on programming basics.",
-      "createdAt": "2024-09-01T12:00:00Z",
-      "updatedAt": "2024-09-10T15:30:00Z"
-    }, {
-      "id": "60d0fe4f5311236168a109ca",
-      "title": "Introduction to Programming",
-      "description": "A comprehensive course on programming basics.",
-      "createdAt": "2024-09-01T12:00:00Z",
-      "updatedAt": "2024-09-10T15:30:00Z"
-    }]
   return (
     <div className="grid grid-cols-4 gap-4 w-4/5 left-1/2 relative -translate-x-1/2">
       {
-        data.map(category =>
+        courses.map(category =>
           <Category title={category.title} description={category.description} key={category.id} createdAt={category.createdAt} />
         )
       }

@@ -1,4 +1,4 @@
-import { FaChevronDown, FaUser } from "react-icons/fa6";
+import { FaUser,FaChevronDownFaUser } from "react-icons/fa6";
 import { IoLogOutOutline, IoSearch } from "react-icons/io5";
 import { TbWorld } from "react-icons/tb";
 import { FaBarsStaggered } from "react-icons/fa6";
@@ -7,8 +7,9 @@ import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 import { useSelector } from "react-redux";
 import useLogout from "../hooks/useLogout";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CreateInstructorModal from "./CreateInstructor";
+import DropDown from "./DropDown";
 // import { useContext } from "react";
 // import { LanguageContext } from "../context/languageContext";
 
@@ -19,14 +20,12 @@ const Nav = () => {
   const [registerModalShow, setRegisterModalShow] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
   const [showCreateInstructorModal, setShowCreateInstructorModal] = useState(false);
+  const [burgerState, setBurgerState] = useState(false);
 
 
   const navigate = useNavigate();
   const { user } = useSelector(state => state.user);
   const { accessToken } = useSelector(state => state.auth);
-
-
-
 
   const handleCreateInstructorConfirm = async () => {
     try {
@@ -72,7 +71,6 @@ const Nav = () => {
   //     localStorage.setItem("language", newLanguage);
   // };
 
-
   return (
     <div className="navbar w-full flex min-h-16 items-center justify-between py-3 px-5">
       <CreateInstructorModal
@@ -80,10 +78,20 @@ const Nav = () => {
         onClose={() => setShowCreateInstructorModal(false)}
         onConfirm={handleCreateInstructorConfirm}
       />
+
       <div className="lg:hidden flex gap-3 items-center">
-        <FaBarsStaggered color="#1B1B1D" size={30} />
+        <button onClick={() => { setBurgerState(!burgerState) }}>
+          <FaBarsStaggered color="#1B1B1D" size={30} />
+        </button>
         <IoSearch color="#1B1B1D" size={30} />
       </div>
+
+      {
+        burgerState &&
+        <div className="fixed left-0 w-60 top-16 h-screen lg:hidden">
+          <DropDown setBurgerState={setBurgerState} />
+        </div>
+      }
 
       <div className="nav__left flex items-center">
         <a href="/" aria-label="Home" className="logo">
@@ -156,7 +164,7 @@ const Nav = () => {
           </div>
         </a>
         <div className="nav_search lg:flex hidden items-center gap-3 px-8">
-          <button className="nav_btn flex items-center gap-3 px-3 py-2">Courses <FaChevronDown size={10} color="gray" /></button>
+          <Link to={'/course-search'} className="nav_btn flex items-center gap-3 px-3 py-2 lg:block md:hidden">Courses</Link>
           <div className="relative">
             <IoSearch className="absolute top-1/2 -translate-y-1/2 left-3" size={20} />
             <input className="w-[350px] text-black outline-none border ps-9 py-2 rounded border-gray-300"
@@ -195,7 +203,7 @@ const Nav = () => {
       </div>
       <LoginModal isOpen={loginModalShow} onClose={() => setLoginModalShow(false)} />
       <RegisterModal isOpen={registerModalShow} onClose={() => setRegisterModalShow(false)} />
-    </div>
+    </div >
   );
 };
 
