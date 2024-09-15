@@ -8,10 +8,12 @@ import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedUserRoute";
 import VideoPage from "./VideoPage/VideoPage";
 import CategorySearchPage from "./CategorySearchPage/CategorySearchPage";
+import Nav from "../../components/Nav";
 
 const Users = () => {
   return (
     <AuthInitializer>
+      <Nav />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route element={<ProtectedRoute />}>
