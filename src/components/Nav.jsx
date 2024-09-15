@@ -21,11 +21,6 @@ const Nav = () => {
 
   const logout = useLogout()
 
-  // const username = localStorage.getItem("username");
-
-
-
-
   // const { language, changeLanguage } = useContext(LanguageContext);
 
   // const handleLanguageChange = (newLanguage) => {
