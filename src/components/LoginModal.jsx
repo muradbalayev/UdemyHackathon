@@ -4,9 +4,14 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import ForgotPassword from "./ForgotPassword/ForgotPassword";
 import { useLoginMutation } from "../redux/services/loginApi"; // Import the hook
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/slices/userSlice";
 
 const LoginModal = ({ isOpen, onClose }) => {
     const [forgotPassModalShow, setForgotPassModalShow] = useState(false);
+    const dispatch = useDispatch()
+
+
 
     const [formData, setFormData] = useState({
         email: "",
@@ -28,8 +33,15 @@ const LoginModal = ({ isOpen, onClose }) => {
 
         try {
             // Send data to the backend using the login mutation hook
-          const response =   await login(formData).unwrap();
-          console.log(response)
+            const response = await login(formData).unwrap();
+            console.log(response);
+
+            // Save full name in local storage
+            const username = `${response.user.firstname} ${response.user.secondname}`;
+            dispatch(setUser(username));
+
+            localStorage.setItem('username', username);
+
             toast.success("Thanks for signing in!");
             setFormData({ email: "", password: "" }); // Clear the input fields
             onClose(); // Close modal on success

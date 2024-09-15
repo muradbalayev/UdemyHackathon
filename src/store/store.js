@@ -5,8 +5,10 @@ import { registerApi } from "../redux/services/registerApi";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { verifyOtpApi } from "../redux/services/verifyOtpApi";
 import { loginApi } from "../redux/services/loginApi";
+import userReducer from "../redux/slices/userSlice";
 
 const reducers = combineReducers({
+  user: userReducer,
   [authSlice.name]: authSlice.reducer,
   [api.reducerPath]: api.reducer,
   [registerApi.reducerPath]: registerApi.reducer,
