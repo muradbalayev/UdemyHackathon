@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedUserRoute";
 import VideoPage from "./VideoPage/VideoPage";
-<<<<<<< HEAD
+import InstructorPage from "./InstructorPage/InstructorPage";
 import CategorySearchPage from "./CategorySearchPage/CategorySearchPage";
 import Nav from "../../components/Nav";
 
@@ -16,35 +16,17 @@ const Users = () => {
     <AuthInitializer>
       <Nav />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        {/* <Route path="/" element={<HomePage />} /> */}
+        <Route path='/' element={<CategorySearchPage />} />
         <Route element={<ProtectedRoute />}>
           <Route element={<VideoPage />} path='/course/video' />
           <Route path="/create-course" element={<CreateCourse />} />
-          <Route path='/category-search' element={<CategorySearchPage />} />
+          <Route path="/InstructorPage" element={<InstructorPage />} />
         </Route>
       </Routes>
     </AuthInitializer>
   );
-=======
-import Nav from "../../components/Nav"
-import InstructorPage from "./InstructorPage/InstructorPage";
-
-const Users = () => {
-    return (
-        <AuthInitializer>
-            <Nav />
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route element={<ProtectedRoute />}>
-                    <Route element={<VideoPage />} path='/course/video' />
-                    <Route path="/create-course" element={<CreateCourse />} />
-                    <Route path="/InstructorPage" element={<InstructorPage />} />
-                </Route>
-            </Routes>
-        </AuthInitializer>
-    );
->>>>>>> murad
-};
+}
 
 function AuthInitializer({ children }) {
   const dispatch = useDispatch();
@@ -75,14 +57,15 @@ function AuthInitializer({ children }) {
             }
           );
 
+
+
           if (response.ok) {
             const data = await response.json();
-            console.log(data)
             const { accessToken } = data;
 
             dispatch(setTokens({ accessToken, refreshToken }));
+            dispatch(setUser(data.user));
           } else {
-            console.log("Token refresh failed:", response.statusText);
             dispatch(clearTokens());
             dispatch(clearUser());
             localStorage.removeItem("refreshToken");
@@ -120,5 +103,7 @@ function AuthInitializer({ children }) {
 
   return children;
 }
+
+
 
 export default Users;

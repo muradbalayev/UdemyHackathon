@@ -1,6 +1,11 @@
+import { useEffect } from "react"
 import Category from "./Category"
 
 function CategoryList() {
+  useEffect(() => {
+
+  }, [])
+
   const data = [
     {
       "id": "60d0fe4f5311236168a109cb",
