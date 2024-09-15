@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedUserRoute";
 import VideoPage from "./VideoPage/VideoPage";
 import Nav from "../../components/Nav"
+import InstructorPage from "./InstructorPage/InstructorPage";
 
 const Users = () => {
     return (
@@ -18,6 +19,7 @@ const Users = () => {
                 <Route element={<ProtectedRoute />}>
                     <Route element={<VideoPage />} path='/course/video' />
                     <Route path="/create-course" element={<CreateCourse />} />
+                    <Route path="/InstructorPage" element={<InstructorPage />} />
                 </Route>
             </Routes>
         </AuthInitializer>
