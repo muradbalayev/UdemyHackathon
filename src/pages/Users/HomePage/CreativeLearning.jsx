@@ -1,9 +1,9 @@
 function CreativeLearning() {
   return (
-    <>
+    <div className="w-full mt-8">
       <h1 className="text-4xl font-bold text-center mb-8">Creative Learning Made Easy</h1>
 
-      <ul className="list-disc space-y-4 flex flex-col items-center mb-20 mt-10">
+      <ul className="list-disc gap-4 flex flex-col items-center mb-20 mt-10">
         <li className="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -42,7 +42,7 @@ function CreativeLearning() {
           <p>App Store Rating</p>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
