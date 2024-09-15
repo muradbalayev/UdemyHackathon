@@ -6,12 +6,11 @@ import ForgotPassword from "./ForgotPassword/ForgotPassword";
 import { useLoginMutation } from "../redux/services/loginApi"; // Import the hook
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/userSlice";
+import { setTokens } from "../redux/slices/authSlice";
 
 const LoginModal = ({ isOpen, onClose }) => {
     const [forgotPassModalShow, setForgotPassModalShow] = useState(false);
     const dispatch = useDispatch()
-
-
 
     const [formData, setFormData] = useState({
         email: "",
@@ -33,13 +32,15 @@ const LoginModal = ({ isOpen, onClose }) => {
 
         try {
             // Send data to the backend using the login mutation hook
-            const response = await login(formData).unwrap();
-            console.log(response);
+            const data = await login(formData).unwrap();
+            console.log(data);
 
             // Save full name in local storage
-            const username = `${response.user.firstname} ${response.user.secondname}`;
+            const username = `${data.user.firstname} ${data.user.secondname}`;
             dispatch(setUser(username));
-
+            const { refreshToken, accessToken } = data;
+            dispatch(setTokens({ accessToken, refreshToken }));
+            localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('username', username);
 
             toast.success("Thanks for signing in!");

@@ -6,7 +6,7 @@ import VideoPage from './Users/VideoPage/VideoPage'
 
 const RouterApp = () => {
     return (
-        <div className='h-screen max-w-[1920px] mx-auto'>
+        <div className='h-screen max-w-[1920px] mx-auto overflow-hidden'>
             <Toaster
                 containerClassName="toast"
                 position="top-center"
@@ -31,5 +31,7 @@ const RouterApp = () => {
         </div>
     )
 }
+
+
 
 export default RouterApp
