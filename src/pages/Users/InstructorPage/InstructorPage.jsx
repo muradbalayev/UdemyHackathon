@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux';
 
 function InstructorPage() {
     const { accessToken } = useSelector(state => state.auth);
+    const { user } = useSelector(state => state.user);
+    if(!user.instructor)
+        
     useEffect(() => {
         const fetchInsturctor = async () => {
             const response = await fetch(`http://192.168.8.119:3000/api/instructors`, {
