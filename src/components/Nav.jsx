@@ -1,4 +1,4 @@
-import { FaUser,FaChevronDownFaUser } from "react-icons/fa6";
+import { FaUser } from "react-icons/fa6";
 import { IoLogOutOutline, IoSearch } from "react-icons/io5";
 import { TbWorld } from "react-icons/tb";
 import { FaBarsStaggered } from "react-icons/fa6";
@@ -164,7 +164,7 @@ const Nav = () => {
           </div>
         </a>
         <div className="nav_search lg:flex hidden items-center gap-3 px-8">
-          <Link to={'/course-search'} className="nav_btn flex items-center gap-3 px-3 py-2 lg:block md:hidden">Courses</Link>
+          <Link to={'/course-search'} className="nav_btn flex items-center gap-3 px-3 py-2 lg:block md:hidden">Courses </Link>
           <div className="relative">
             <IoSearch className="absolute top-1/2 -translate-y-1/2 left-3" size={20} />
             <input className="w-[350px] text-black outline-none border ps-9 py-2 rounded border-gray-300"
