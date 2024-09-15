@@ -2,9 +2,10 @@ import { FaChevronDown } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { TbWorld } from "react-icons/tb";
 import { FaBarsStaggered } from "react-icons/fa6";
-import { useState } from "react";
+import {  useState } from "react";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
+// import { useSelector } from "react-redux";
 // import { useContext } from "react";
 // import { LanguageContext } from "../context/languageContext";
 
@@ -13,6 +14,13 @@ import RegisterModal from "./RegisterModal";
 const Nav = () => {
   const [loginModalShow, setLoginModalShow] = useState(false);
   const [registerModalShow, setRegisterModalShow] = useState(false);
+
+  // const username = useSelector(state => state.user.username);
+
+  const username = localStorage.getItem("username");
+ 
+
+
 
   // const { language, changeLanguage } = useContext(LanguageContext);
 
@@ -23,7 +31,7 @@ const Nav = () => {
 
 
   return (
-    <navbar className="navbar w-full flex min-h-16 items-center justify-between py-3 px-5">
+    <div className="navbar w-full flex min-h-16 items-center justify-between py-3 px-5">
       <div className="lg:hidden flex gap-3 items-center">
         <FaBarsStaggered color="#1B1B1D" size={30} />
         <IoSearch color="#1B1B1D" size={30} />
@@ -110,14 +118,22 @@ const Nav = () => {
       </div>
       <div className="nav__right flex items-center gap-4 ">
         <TbWorld className="lg:block hidden nav_btn" size={25} />
-        <button onClick={() => setLoginModalShow(true)}
-          className="nav_btn lg:block hidden px-5 py-2">Sign In</button>
-        <button onClick={() => setRegisterModalShow(true)}
-         className="sign-up px-5 py-2 bg-[#00FF84] rounded-md hover:bg-[#45ed7a]">Sign Up</button>
+        {
+          username === '' ? (
+            <>
+          <button onClick={() => setLoginModalShow(true)}
+            className="nav_btn lg:block hidden px-5 py-2">Sign In</button>
+          <button onClick={() => setRegisterModalShow(true)}
+            className="sign-up px-5 py-2 bg-[#00FF84] rounded-md hover:bg-[#45ed7a]">Sign Up</button>
+            </>
+          ) : (
+            <p>{username}</p>
+          )
+        }
       </div>
       <LoginModal isOpen={loginModalShow} onClose={() => setLoginModalShow(false)} />
       <RegisterModal isOpen={registerModalShow} onClose={() => setRegisterModalShow(false)} />
-    </navbar>
+    </div>
   );
 };
 
