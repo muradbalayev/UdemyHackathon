@@ -1,14 +1,14 @@
-import { fetchBaseQuery } from "@reduxjs/toolkit/query";
-import { clearUser } from "./slices/userSlice";
-import { clearTokens, setTokens } from "./slices/authSlice";
+import { fetchBaseQuery } from '@reduxjs/toolkit/query';
+import { clearUser } from './slices/userSlice';
+import { clearTokens, setTokens } from './slices/authSlice';
 
 export const baseQueryWithReauth = async (args, api, extraOptions) => {
     let result = await fetchBaseQuery({
-        baseUrl: `${import.meta.env.VITE_API_GLOBAL_URL}`,
+        baseUrl: 'http://192.168.8.119:3000/api', // New base URL
         prepareHeaders: (headers, { getState }) => {
             const { accessToken } = getState().auth;
             if (accessToken) {
-                headers.set('Authorization', `Bearer ${accessToken}`);
+                headers.set('Authorization', `Bearer ${accessToken}`); // Set Bearer token
             }
             return headers;
         },
@@ -18,7 +18,7 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
         const refreshToken = api.getState().auth.refreshToken;
 
         if (refreshToken) {
-            const refreshResponse = await fetch(`http://192.168.8.119:3000/api/users/auth/refresh-token`, {
+            const refreshResponse = await fetch('http://192.168.8.119:3000/api/users/auth/refresh-token', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token: refreshToken }),
@@ -29,9 +29,9 @@ export const baseQueryWithReauth = async (args, api, extraOptions) => {
                 api.dispatch(setTokens({ accessToken: newAccessToken }));
 
                 result = await fetchBaseQuery({
-                    baseUrl: `http://192.168.8.119:3000/api`,
+                    baseUrl: 'http://192.168.8.119:3000/api',
                     prepareHeaders: (headers) => {
-                        headers.set('Authorization', `Bearer ${newAccessToken}`);
+                        headers.set('Authorization', `Bearer ${newAccessToken}`); // Use new Bearer token
                         return headers;
                     },
                 })(args, api, extraOptions);

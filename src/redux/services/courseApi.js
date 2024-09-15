@@ -1,25 +1,22 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-// Define baseQuery without token handling
-const baseQueryWithReauth = fetchBaseQuery({
-  baseUrl: 'http://192.168.8.119:3000/', // Your base URL
-});
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { baseQueryWithReauth } from '../jwt';
 
 // Create the API
-export const coursesApi = createApi({
-  reducerPath: 'coursesApi', // Updated reducerPath
-  baseQuery: baseQueryWithReauth,
-  endpoints: (builder) => ({
-    getCourses: builder.query({
-      query: () => ({
-        url: 'api/users/course/courses', // Updated endpoint
-        method: 'GET',
-      }),
+export const courseApi = createApi({
+    reducerPath: 'courseApi', // Updated reducerPath
+    baseQuery: baseQueryWithReauth,
+    endpoints: (builder) => ({
+        createCourse: builder.mutation({
+            query: (formData) => ({
+                url: 'instructors/course/create', // Updated endpoint
+                method: 'POST',
+                body: formData, // Assuming formData contains necessary login details
+            }),
+        }),
     }),
-  }),
-  keepUnusedDataFor: 60,
-  refetchOnMountOrArgChange: 5,
+    keepUnusedDataFor: 60,
+    refetchOnMountOrArgChange: 5,
 });
 
 // Export the mutation hook
-export const { useGetCoursesQuery } = coursesApi;
+export const { useCreateCourseMutation } = courseApi;

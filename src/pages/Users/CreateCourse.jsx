@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useCreateCourseMutation } from '../../redux/services/courseApi';
 
 const CreateCourse = () => {
   const [formData, setFormData] = useState({
     title: '',
     price: '',
     description: '',
-    language: 'Azerbaijan', // Default to Azerbaijan
+    language: 'az', // Default to Azerbaijan
     keys: '',
-    image: null, // Add image field for course image
+    photo: null, // Add image field for course image
   });
 
-  const [loading, setLoading] = useState(false); // State to track loading
+  const [createCourse, { isLoading }] = useCreateCourseMutation(); // Use mutation hook
   const [error, setError] = useState(null); // State to track error
 
   const handleInputChange = (e) => {
@@ -25,57 +26,50 @@ const CreateCourse = () => {
   const handleFileChange = (e) => {
     setFormData((prevData) => ({
       ...prevData,
-      image: e.target.files[0],
+      photo: e.target.files[0],
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Start loading state
-    setError(null); // Clear any previous errors
-
+    setError(null);
+  
     // Prepare FormData to send including the image file
     const courseData = new FormData();
     courseData.append('title', formData.title);
     courseData.append('price', formData.price);
     courseData.append('description', formData.description);
     courseData.append('language', formData.language);
-    
-    // Convert keys from string to array (split by comma) upon form submission
+  
     const keysArray = formData.keys.split(',').map((key) => key.trim()).filter(Boolean);
-    courseData.append('keys', JSON.stringify(keysArray)); // Convert array to string
-    if (formData.image) {
-      courseData.append('image', formData.image);
+    courseData.append('keys', JSON.stringify(keysArray));
+  
+    if (formData.photo) {
+      courseData.append('photo', formData.photo); // Ensure the field name matches what the backend expects
     }
-
+  
+    // Log FormData contents for debugging
+    for (let [key, value] of courseData.entries()) {
+      console.log(`${key}:`, value);
+    }
+  
     try {
-      const response = await fetch('http://192.168.8.119:3000/api/create-course', {
-        method: 'POST',
-        body: courseData, // FormData object
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create course');
-      }
-
-      const result = await response.json();
-      console.log('Course created successfully:', result);
-      // Handle success (e.g., show success message, reset form)
+      await createCourse(courseData).unwrap();
+      console.log('Course created successfully');
       setFormData({
         title: '',
         price: '',
         description: '',
-        language: 'Azerbaijan',
+        language: 'az',
         keys: '',
-        image: null,
+        photo: null,
       });
     } catch (err) {
-      setError(err.message); // Set error message
+      setError(err.data?.message || 'Failed to create course');
       console.error(err);
-    } finally {
-      setLoading(false); // End loading state
     }
   };
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -135,8 +129,8 @@ const CreateCourse = () => {
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             >
-              <option value="Azerbaijan">Azerbaijan</option>
-              <option value="English">English</option>
+              <option value="az">az</option>
+              <option value="en">en</option>
             </select>
           </div>
 
@@ -154,14 +148,14 @@ const CreateCourse = () => {
             />
           </div>
 
-          {/* Image Upload */}
+          {/* photo Upload */}
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-2" htmlFor="image">Course Image</label>
+            <label className="block text-sm font-medium mb-2" htmlFor="photo">Course photo</label>
             <input
               type="file"
-              id="image"
-              name="image"
-              accept="image/*"
+              id="photo"
+              name="photo"
+              accept="photo/*"
               onChange={handleFileChange}
               className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
             />
@@ -171,7 +165,7 @@ const CreateCourse = () => {
           {error && <div className="text-red-500 mb-4">{error}</div>}
 
           {/* Loading Indicator */}
-          {loading ? (
+          {isLoading ? (
             <div className="text-center text-blue-500">Submitting...</div>
           ) : (
             <div className="text-center flex justify-between">

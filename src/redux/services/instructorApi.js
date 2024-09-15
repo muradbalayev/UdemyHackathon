@@ -1,24 +1,19 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-// Define baseQuery without token handling
-const baseQueryWithReauth = fetchBaseQuery({
-    baseUrl: 'http://192.168.8.119:3000/', // Your base URL
-});
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { baseQueryWithReauth } from '../jwt';
 
 
+// Create the API
 export const instructorApi = createApi({
-    reducerPath: 'instructorApi', // Updated reducerPath
+    reducerPath: 'instructorApi',
     baseQuery: baseQueryWithReauth,
     endpoints: (builder) => ({
-        login: builder.mutation({
-            query: () => ({
-                url: 'api/instructor/', // Updated endpoint
-                method: 'GET',
-            }),
+        getInstructor: builder.query({
+            query: () => 'users/instructors',
+            providesTags: ['Instructor'],
         }),
     }),
     keepUnusedDataFor: 60,
-    refetchOnMountOrArgChange: 5,
+    refetchOnMountOrArgChange: 5
 });
 
-export const { useLoginMutation } = loginApi;
+export const { useGetInstructorQuery } = instructorApi;

@@ -24,8 +24,9 @@ const Nav = () => {
   const navigate = useNavigate();
   const { user } = useSelector(state => state.user);
   const { accessToken } = useSelector(state => state.auth);
-  
-  
+
+
+
 
   const handleCreateInstructorConfirm = async () => {
     try {
@@ -46,6 +47,7 @@ const Nav = () => {
 
       // Handle success (e.g., navigate to the instructor creation page)
       navigate("/create-instructor");
+      setShowCreateInstructorModal(false);
     } catch (error) {
       console.error("Error creating instructor account:", error);
       // Handle error (e.g., show a notification)
@@ -165,7 +167,7 @@ const Nav = () => {
       <div className="nav__right flex items-center gap-4 ">
         <TbWorld className="lg:block hidden nav_btn" size={25} />
         {
-          
+
           !user?.firstname ? (
             <>
               <button onClick={() => setLoginModalShow(true)}

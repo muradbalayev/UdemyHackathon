@@ -7,7 +7,6 @@ import LearnFrom from './LearnFrom/LearnFrom'
 const HomePage = () => {
   return (
     <div>
-      
       <div className="mx-auto pt-8 bg-[#000] text-white">
       <div className="p-8">
         <Link to='/create-course' className="font-bold btn px-4 py-2 bg-[#00FF84]"> Create Course</Link>

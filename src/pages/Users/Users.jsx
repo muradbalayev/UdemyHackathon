@@ -28,6 +28,9 @@ const Users = () => {
     );
 };
 
+
+
+
 function AuthInitializer({ children }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,14 +60,15 @@ function AuthInitializer({ children }) {
             }
           );
 
+
+
           if (response.ok) {
             const data = await response.json();
-            console.log(data)
             const { accessToken } = data;
 
             dispatch(setTokens({ accessToken, refreshToken }));
+            dispatch(setUser(data.user));
           } else {
-            console.log("Token refresh failed:", response.statusText);
             dispatch(clearTokens());
             dispatch(clearUser());
             localStorage.removeItem("refreshToken");
@@ -102,5 +106,7 @@ function AuthInitializer({ children }) {
 
   return children;
 }
+
+
 
 export default Users;
