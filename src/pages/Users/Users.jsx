@@ -16,12 +16,12 @@ const Users = () => {
     <AuthInitializer>
       <Nav />
       <Routes>
-        {/* <Route path="/" element={<HomePage />} /> */}
-        <Route path='/' element={<CategorySearchPage />} />
+        <Route path="/" element={<HomePage />} />
         <Route element={<ProtectedRoute />}>
           <Route element={<VideoPage />} path='/course/video' />
           <Route path="/create-course" element={<CreateCourse />} />
           <Route path="/InstructorPage" element={<InstructorPage />} />
+          <Route path='/course-search' element={<CategorySearchPage />} />
         </Route>
       </Routes>
     </AuthInitializer>
