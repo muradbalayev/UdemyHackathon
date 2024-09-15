@@ -57,7 +57,7 @@ const Nav = () => {
     if (!user.instructor) {
       setShowCreateInstructorModal(true);
     } else {
-      navigate("/instructor");
+      navigate("/InstructorPage");
     }
   };
 

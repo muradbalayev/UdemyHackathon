@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedUserRoute";
 import VideoPage from "./VideoPage/VideoPage";
+<<<<<<< HEAD
 import CategorySearchPage from "./CategorySearchPage/CategorySearchPage";
 import Nav from "../../components/Nav";
 
@@ -24,6 +25,25 @@ const Users = () => {
       </Routes>
     </AuthInitializer>
   );
+=======
+import Nav from "../../components/Nav"
+import InstructorPage from "./InstructorPage/InstructorPage";
+
+const Users = () => {
+    return (
+        <AuthInitializer>
+            <Nav />
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route element={<VideoPage />} path='/course/video' />
+                    <Route path="/create-course" element={<CreateCourse />} />
+                    <Route path="/InstructorPage" element={<InstructorPage />} />
+                </Route>
+            </Routes>
+        </AuthInitializer>
+    );
+>>>>>>> murad
 };
 
 function AuthInitializer({ children }) {
