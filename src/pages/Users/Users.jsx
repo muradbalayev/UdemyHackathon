@@ -18,7 +18,7 @@ const Users = () => {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route element={<ProtectedRoute />}>
-                    <Route path='/category-search' element={<CategorySearchPage />} />
+                    <Route path='/course-search' element={<CategorySearchPage />} />
                     <Route element={<VideoPage />} path='/course/video' />
                     <Route path="/create-course" element={<CreateCourse />} />
                     <Route path="/InstructorPage" element={<InstructorPage />} />
@@ -56,9 +56,6 @@ function AuthInitializer({ children }) {
                             body: JSON.stringify({ token: refreshToken }),
                         }
                     );
-
-
-
                     if (response.ok) {
                         const data = await response.json();
                         const { accessToken } = data;

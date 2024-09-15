@@ -25,11 +25,12 @@ function CategoryList() {
     fetchCourses();
   }, [])
 
+  console.log(courses)
   return (
     <div className="grid grid-cols-4 gap-4 w-4/5 left-1/2 relative -translate-x-1/2">
       {
         courses.map(category =>
-          <Category title={category.title} description={category.description} key={category.id} createdAt={category.createdAt} />
+          <Category category={category} key={category._id} />
         )
       }
     </div>

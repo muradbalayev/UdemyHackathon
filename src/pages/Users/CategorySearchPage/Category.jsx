@@ -1,12 +1,14 @@
-function Category({ title, description, createdAt }) {
-  const data = new Date(createdAt)
-  console.log(data)
+function Category({ category: { title, description, createDate, photo, keys } }) {
+  // console.log
+  const data = new Date(createDate)
+
   return (
     <div>
-      <img src="https://static.skillshare.com/assets/images/loh/marques_brownlee.webp" />
-      <p className="font-extrabold">{title}</p>
-      <span className="text-sm">{description}</span><br />
-      <span className="text-sm">{`Created at:${data.getDate()}-${data.getMonth() + 1}-${data.getFullYear()}`}</span>
+      <img src={`http://192.168.8.119:3000/${photo}`} />
+      <p className="font-extrabold text-xl">{title}</p>
+      <p className="text-xs">{description}</p>
+      <p className="text-xs">{`Created at:${data.getDate()}-${data.getMonth() + 1}-${data.getFullYear()}`}</p>
+      <p className="text-xs">{keys?.toString()}</p>
     </div>
   )
 }
