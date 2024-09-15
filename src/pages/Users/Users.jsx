@@ -21,7 +21,7 @@ const Users = () => {
                     <Route path='/course-search' element={<CategorySearchPage />} />
                     <Route element={<VideoPage />} path='/course/video' />
                     <Route path="/create-course" element={<CreateCourse />} />
-                    <Route path="/InstructorPage" element={<InstructorPage />} />
+                    <Route path="/instructorPage" element={<InstructorPage />} />
                 </Route>
             </Routes>
         </AuthInitializer>

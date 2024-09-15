@@ -8,7 +8,7 @@ export const instructorApi = createApi({
     baseQuery: baseQueryWithReauth,
     endpoints: (builder) => ({
         getInstructor: builder.query({
-            query: () => 'users/instructors',
+            query: () => 'instructors',
             providesTags: ['Instructor'],
         }),
     }),
