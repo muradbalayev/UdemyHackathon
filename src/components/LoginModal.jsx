@@ -33,15 +33,15 @@ const LoginModal = ({ isOpen, onClose }) => {
         try {
             // Send data to the backend using the login mutation hook
             const data = await login(formData).unwrap();
-            console.log(data);
-
             // Save full name in local storage
-            const username = `${data.user.firstname} ${data.user.secondname}`;
-            dispatch(setUser(username));
-            const { refreshToken, accessToken } = data;
-            dispatch(setTokens({ accessToken, refreshToken }));
+            const { refreshToken, accessToken, user } = data;
+
             localStorage.setItem('refreshToken', refreshToken);
-            localStorage.setItem('username', username);
+            localStorage.setItem('user', user);
+            dispatch(setUser(user));
+            dispatch(setTokens({ accessToken, refreshToken }));
+            console.log(user);
+            
 
             toast.success("Thanks for signing in!");
             setFormData({ email: "", password: "" }); // Clear the input fields

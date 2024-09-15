@@ -7,13 +7,13 @@ import { clearUser } from "../redux/slices/userSlice";
 const useLogout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const username = useSelector((state) => state.user.username);
+  const user = useSelector((state) => state.user);
 
   const logout = async (e) => {
     e.preventDefault()
     dispatch(clearTokens());
     localStorage.removeItem("refreshToken");
-    toast.success(`${username} logged out successfully.`);
+    toast.success(`${user.firstname} logged out successfully.`);
     localStorage.removeItem("username");
     dispatch(clearUser());
     navigate("/");

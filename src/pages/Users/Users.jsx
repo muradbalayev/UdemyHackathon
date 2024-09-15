@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedUserRoute";
 import VideoPage from "./VideoPage/VideoPage";
-import CategorySearchPage from "./CategorySearchPage/CategorySearchPage";
 
 const Users = () => {
   return (

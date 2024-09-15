@@ -1,4 +1,3 @@
-import Nav from '../../../components/Nav'
 import { Link } from 'react-router-dom'
 import WhyLowe from './WhyLowe'
 import AskedQuest from './AskedQuest'
@@ -9,7 +8,6 @@ import LearnFrom from './LearnFrom/LearnFrom'
 const HomePage = () => {
   return (
     <div>
-      <Nav />
       
       <div className="mx-auto pt-8 bg-[#000] text-white">
       <div className="p-8">
