@@ -44,7 +44,7 @@ const LoginModal = ({ isOpen, onClose }) => {
             localStorage.setItem('username', username);
             localStorage.setItem('instructor', user.instructor);
             console.log(user.instructor)
-            dispatch(setUser(username, user.instructor));
+            dispatch(setUser(user));
             dispatch(setTokens({ accessToken, refreshToken }));
 
             toast.success("Thanks for signing in!");

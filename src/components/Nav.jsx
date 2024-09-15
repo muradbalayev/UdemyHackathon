@@ -8,6 +8,7 @@ import RegisterModal from "./RegisterModal";
 import { useSelector } from "react-redux";
 import useLogout from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
+import CreateInstructorModal from "./CreateInstructor";
 // import { useContext } from "react";
 // import { LanguageContext } from "../context/languageContext";
 
@@ -17,17 +18,46 @@ const Nav = () => {
   const [loginModalShow, setLoginModalShow] = useState(false);
   const [registerModalShow, setRegisterModalShow] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
+  const [showCreateInstructorModal, setShowCreateInstructorModal] = useState(false);
+
 
   const navigate = useNavigate();
 
-  const { username, instructor } = useSelector(state => state.user);
-  console.log(username)
+  const { user } = useSelector(state => state.user);
+  const { accessToken } = useSelector(state => state.auth);
+  console.log(user)
+  console.log(accessToken)
 
-  const handleInstructorClick = () => {
-    if (instructor === null) {
-      if (window.confirm("Do you want to create an instructor account?")) {
-        navigate("/create-instructor");
+  const handleCreateInstructorConfirm = async () => {
+    try {
+      const response = await fetch("http://192.168.8.119:3000/api/users/instructor/create-instructor", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+          // Add any additional headers if needed
+        },
+        body: JSON.stringify({ /* Add any body data if needed */ }),
+      });
+      console.log(response)
+
+      if (!response.success) {
+        throw new Error("Failed to create instructor account.");
       }
+
+      // Handle success (e.g., navigate to the instructor creation page)
+      navigate("/create-instructor");
+    } catch (error) {
+      console.error("Error creating instructor account:", error);
+      // Handle error (e.g., show a notification)
+    } finally {
+      setShowCreateInstructorModal(false);
+    }
+  };
+  const handleInstructorClick = () => {
+    console.log(user.instructor)
+    if (!user.instructor) {
+      setShowCreateInstructorModal(true);
     } else {
       navigate("/instructor");
     }
@@ -45,6 +75,11 @@ const Nav = () => {
 
   return (
     <div className="navbar w-full flex min-h-16 items-center justify-between py-3 px-5">
+      <CreateInstructorModal
+        isOpen={showCreateInstructorModal}
+        onClose={() => setShowCreateInstructorModal(false)}
+        onConfirm={handleCreateInstructorConfirm}
+      />
       <div className="lg:hidden flex gap-3 items-center">
         <FaBarsStaggered color="#1B1B1D" size={30} />
         <IoSearch color="#1B1B1D" size={30} />
@@ -132,7 +167,7 @@ const Nav = () => {
       <div className="nav__right flex items-center gap-4 ">
         <TbWorld className="lg:block hidden nav_btn" size={25} />
         {
-          username === '' ? (
+          user.username === '' ? (
             <>
               <button onClick={() => setLoginModalShow(true)}
                 className="nav_btn lg:block hidden px-5 py-2">Sign In</button>
@@ -144,7 +179,7 @@ const Nav = () => {
               <FaUser size={22} onClick={() => setUserOpen(!userOpen)} className="cursor-pointer" />
               {userOpen &&
                 <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 shadow-lg rounded-md overflow-hidden">
-                  <p className="px-4 py-2 border-b text-center border-gray-200 text-base font-medium text-gray-700">{username}</p>
+                  <p className="px-4 py-2 border-b text-center border-gray-200 text-base font-medium text-gray-700">{user.username}</p>
                   <button onClick={handleInstructorClick}
                     className="w-full px-4 py-2 hover:text-blue-600 border-b border-gray-200 text-sm font-medium text-gray-700">Instructor Account</button>
                   <button onClick={logout} className="w-full flex gap-2 items-center px-4 py-2 text-left text-red-500 hover:bg-red-100">
