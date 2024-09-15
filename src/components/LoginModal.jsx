@@ -48,8 +48,11 @@ const LoginModal = ({ isOpen, onClose }) => {
             onClose(); // Close modal on success
         } catch (err) {
             // Handle request error
-            console.error("Request error:", err);
-            toast.error('Error signing in');
+            console.error("Request error:", err);if ('data' in err) {
+              toast.error(err.data.message);
+            } else {
+              toast.error('Error verifying OTP');
+            }
         }
     };
 
