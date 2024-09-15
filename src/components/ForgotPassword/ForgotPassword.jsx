@@ -53,6 +53,11 @@ const ForgotPassword = ({ isOpen, onClose }) => {
         } catch (err) {
             // Handle request error
             console.error("Request error:", err);
+            if ('data' in err) {
+              toast.error(err.data.message);
+            } else {
+              toast.error('Error verifying OTP');
+            }
             //   toast.error(translations[language]["errorSubmittingForm"]);
         }
     };

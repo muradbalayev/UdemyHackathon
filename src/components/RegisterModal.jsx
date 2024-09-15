@@ -25,20 +25,24 @@ const RegisterModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       // Use the mutation hook to send OTP
       await sendOtp(formData).unwrap();
-  
+
       toast.success("Thanks for signing up!");
       onClose(); // Close RegisterModal
       setTimeout(() => {
         setVerifyModalShow(true); // Open VerifyOtp modal after RegisterModal closes
       }, 300); // Optional small delay for smooth transition
-  
+
     } catch (err) {
       console.error("Request error:", err);
-      toast.error('Error submitting form');
+      if ('data' in err) {
+        toast.error(err.data.message);
+      } else {
+        toast.error('Error verifying OTP');
+      }
     }
   };
 
@@ -77,8 +81,8 @@ const RegisterModal = ({ isOpen, onClose }) => {
                   />
                   <p className="text-gray text-xs">Want to be notified of notifications?</p>
                 </div>
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className={`px-4 py-2 font-bold rounded md:w-40 ${isLoading ? 'bg-gray-400' : 'bg-[#00FF84] hover:bg-[#45ed7a] transition-all'}`}
                   disabled={isLoading}
                 >
@@ -91,11 +95,11 @@ const RegisterModal = ({ isOpen, onClose }) => {
       </Modal>
 
       {/* VerifyOtp Modal */}
-      <VerifyOtp 
-        isOpen={verifyModalShow} 
-        onClose={() => setVerifyModalShow(false)} 
-        email={formData.email} 
-        phone={formData.phone} 
+      <VerifyOtp
+        isOpen={verifyModalShow}
+        onClose={() => setVerifyModalShow(false)}
+        email={formData.email}
+        phone={formData.phone}
       />
     </>
   );
