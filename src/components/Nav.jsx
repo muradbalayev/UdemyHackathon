@@ -22,11 +22,10 @@ const Nav = () => {
 
 
   const navigate = useNavigate();
-
   const { user } = useSelector(state => state.user);
   const { accessToken } = useSelector(state => state.auth);
-  console.log(user)
-  console.log(accessToken)
+  
+  
 
   const handleCreateInstructorConfirm = async () => {
     try {
@@ -39,9 +38,9 @@ const Nav = () => {
         },
         body: JSON.stringify({ /* Add any body data if needed */ }),
       });
-      console.log(response)
 
-      if (!response.success) {
+      const data = await response.json();
+      if (!data.success) {
         throw new Error("Failed to create instructor account.");
       }
 
@@ -55,7 +54,6 @@ const Nav = () => {
     }
   };
   const handleInstructorClick = () => {
-    console.log(user.instructor)
     if (!user.instructor) {
       setShowCreateInstructorModal(true);
     } else {
@@ -167,7 +165,8 @@ const Nav = () => {
       <div className="nav__right flex items-center gap-4 ">
         <TbWorld className="lg:block hidden nav_btn" size={25} />
         {
-          user.username === '' ? (
+          
+          !user?.firstname ? (
             <>
               <button onClick={() => setLoginModalShow(true)}
                 className="nav_btn lg:block hidden px-5 py-2">Sign In</button>
@@ -179,7 +178,7 @@ const Nav = () => {
               <FaUser size={22} onClick={() => setUserOpen(!userOpen)} className="cursor-pointer" />
               {userOpen &&
                 <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 shadow-lg rounded-md overflow-hidden">
-                  <p className="px-4 py-2 border-b text-center border-gray-200 text-base font-medium text-gray-700">{user.username}</p>
+                  <p className="px-4 py-2 border-b text-center border-gray-200 text-base font-medium text-gray-700">{user.firstname + " " + user.secondname}</p>
                   <button onClick={handleInstructorClick}
                     className="w-full px-4 py-2 hover:text-blue-600 border-b border-gray-200 text-sm font-medium text-gray-700">Instructor Account</button>
                   <button onClick={logout} className="w-full flex gap-2 items-center px-4 py-2 text-left text-red-500 hover:bg-red-100">

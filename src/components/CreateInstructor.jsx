@@ -1,7 +1,5 @@
 const CreateInstructorModal = ({ isOpen, onClose, onConfirm }) => {
-    
     if (!isOpen) return null;
-  
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
         <div className="bg-white p-5 rounded-lg shadow-lg">

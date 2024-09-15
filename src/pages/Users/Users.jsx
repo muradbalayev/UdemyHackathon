@@ -37,7 +37,6 @@ function AuthInitializer({ children }) {
     useEffect(() => {
         const initializeAuth = async () => {
             const refreshToken = localStorage.getItem("refreshToken")
-
             if (refreshToken) {
                 try {
                     const response = await fetch(
@@ -50,19 +49,18 @@ function AuthInitializer({ children }) {
                             body: JSON.stringify({ token: refreshToken }),
                         }
                     );
-
                     if (response.ok) {
                         const data = await response.json();
-                        console.log(data)
-                        const { accessToken } = data;
-
+                        const { accessToken, user } = data;
                         dispatch(setTokens({ accessToken, refreshToken }));
+                        dispatch(setUser(user));
+                        localStorage.setItem("user", user)
                     } else {
-                        console.log("Token refresh failed:", response.statusText);
+                        console.log("Bura");
                         dispatch(clearTokens());
                         dispatch(clearUser());
                         localStorage.removeItem("refreshToken");
-                        localStorage.removeItem("username");
+                        localStorage.removeItem("user");
                         navigate("/"); // Redirect to login page
                     }
                 } catch (error) {
