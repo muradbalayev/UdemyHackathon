@@ -6,6 +6,7 @@ import { clearUser, setUser } from "../../redux/slices/userSlice";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedUserRoute";
+import VideoPage from "./VideoPage/VideoPage";
 
 const Users = () => {
     return (
@@ -13,6 +14,7 @@ const Users = () => {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route element={<ProtectedRoute />}>
+                    <Route element={<VideoPage />} path='/course/video' />
                     <Route path="/create-course" element={<CreateCourse />} />
                 </Route>
             </Routes>
