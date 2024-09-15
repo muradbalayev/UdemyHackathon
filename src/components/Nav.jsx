@@ -7,6 +7,7 @@ import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 import { useSelector } from "react-redux";
 import useLogout from "../hooks/useLogout";
+import { useNavigate } from "react-router-dom";
 // import { useContext } from "react";
 // import { LanguageContext } from "../context/languageContext";
 
@@ -17,7 +18,20 @@ const Nav = () => {
   const [registerModalShow, setRegisterModalShow] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
 
-  const username = useSelector(state => state.user.username);
+  const navigate = useNavigate();
+
+  const { username, instructor } = useSelector(state => state.user);
+  console.log(username)
+
+  const handleInstructorClick = () => {
+    if (instructor === null) {
+      if (window.confirm("Do you want to create an instructor account?")) {
+        navigate("/create-instructor");
+      }
+    } else {
+      navigate("/instructor");
+    }
+  };
 
   const logout = useLogout()
 
@@ -131,7 +145,8 @@ const Nav = () => {
               {userOpen &&
                 <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 shadow-lg rounded-md overflow-hidden">
                   <p className="px-4 py-2 border-b text-center border-gray-200 text-base font-medium text-gray-700">{username}</p>
-                  <button className="w-full px-4 py-2 hover:text-blue-600 border-b border-gray-200 text-sm font-medium text-gray-700">Become Teacher</button>
+                  <button onClick={handleInstructorClick}
+                    className="w-full px-4 py-2 hover:text-blue-600 border-b border-gray-200 text-sm font-medium text-gray-700">Instructor Account</button>
                   <button onClick={logout} className="w-full flex gap-2 items-center px-4 py-2 text-left text-red-500 hover:bg-red-100">
                     <IoLogOutOutline color="red" size={25} />
                     Logout

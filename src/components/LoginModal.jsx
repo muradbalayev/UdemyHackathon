@@ -37,11 +37,15 @@ const LoginModal = ({ isOpen, onClose }) => {
 
             // Save full name in local storage
             const username = `${data.user.firstname} ${data.user.secondname}`;
-            dispatch(setUser(username));
-            const { refreshToken, accessToken } = data;
-            dispatch(setTokens({ accessToken, refreshToken }));
+            const { refreshToken, accessToken, user } = data;
+
+
             localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('username', username);
+            localStorage.setItem('instructor', user.instructor);
+            console.log(user.instructor)
+            dispatch(setUser(username, user.instructor));
+            dispatch(setTokens({ accessToken, refreshToken }));
 
             toast.success("Thanks for signing in!");
             setFormData({ email: "", password: "" }); // Clear the input fields
