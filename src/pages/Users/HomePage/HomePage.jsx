@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import WhyLowe from './WhyLowe'
 import AskedQuest from './AskedQuest'
 import Footer from './Footer'
 import CreativeLearning from './CreativeLearning'
@@ -18,7 +17,6 @@ const HomePage = () => {
         {/* <div className="text-center mt-8">
           <h2 className="text-2xl font-bold">Explore Inspiring Online Courses</h2>
         </div> */}
-        <WhyLowe />
         <AskedQuest />
         <Footer />
       </div>
