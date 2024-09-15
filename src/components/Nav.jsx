@@ -1,10 +1,12 @@
-import { FaChevronDown } from "react-icons/fa6";
-import { IoSearch } from "react-icons/io5";
+import { FaChevronDown, FaUser } from "react-icons/fa6";
+import { IoLogOutOutline, IoSearch } from "react-icons/io5";
 import { TbWorld } from "react-icons/tb";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { useState } from "react";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
+import { useSelector } from "react-redux";
+import useLogout from "../hooks/useLogout";
 // import { useContext } from "react";
 // import { LanguageContext } from "../context/languageContext";
 
@@ -13,6 +15,11 @@ import RegisterModal from "./RegisterModal";
 const Nav = () => {
   const [loginModalShow, setLoginModalShow] = useState(false);
   const [registerModalShow, setRegisterModalShow] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
+
+  const username = useSelector(state => state.user.username);
+
+  const logout = useLogout()
 
   // const { language, changeLanguage } = useContext(LanguageContext);
 
@@ -23,7 +30,7 @@ const Nav = () => {
 
 
   return (
-    <navbar className="navbar w-full flex min-h-16 items-center justify-between py-3 px-5">
+    <div className="navbar w-full flex min-h-16 items-center justify-between py-3 px-5">
       <div className="lg:hidden flex gap-3 items-center">
         <FaBarsStaggered color="#1B1B1D" size={30} />
         <IoSearch color="#1B1B1D" size={30} />
@@ -110,14 +117,34 @@ const Nav = () => {
       </div>
       <div className="nav__right flex items-center gap-4 ">
         <TbWorld className="lg:block hidden nav_btn" size={25} />
-        <button onClick={() => setLoginModalShow(true)}
-          className="nav_btn lg:block hidden px-5 py-2">Sign In</button>
-        <button onClick={() => setRegisterModalShow(true)}
-         className="sign-up px-5 py-2 bg-[#00FF84] rounded-md hover:bg-[#45ed7a]">Sign Up</button>
+        {
+          username === '' ? (
+            <>
+              <button onClick={() => setLoginModalShow(true)}
+                className="nav_btn lg:block hidden px-5 py-2">Sign In</button>
+              <button onClick={() => setRegisterModalShow(true)}
+                className="sign-up px-5 py-2 bg-[#00FF84] rounded-md hover:bg-[#45ed7a]">Sign Up</button>
+            </>
+          ) : (
+            <div className="relative flex items-center gap-3">
+              <FaUser size={22} onClick={() => setUserOpen(!userOpen)} className="cursor-pointer" />
+              {userOpen &&
+                <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 shadow-lg rounded-md overflow-hidden">
+                  <p className="px-4 py-2 border-b text-center border-gray-200 text-base font-medium text-gray-700">{username}</p>
+                  <button className="w-full px-4 py-2 hover:text-blue-600 border-b border-gray-200 text-sm font-medium text-gray-700">Become Teacher</button>
+                  <button onClick={logout} className="w-full flex gap-2 items-center px-4 py-2 text-left text-red-500 hover:bg-red-100">
+                    <IoLogOutOutline color="red" size={25} />
+                    Logout
+                  </button>
+                </div>
+              }
+            </div>
+          )
+        }
       </div>
       <LoginModal isOpen={loginModalShow} onClose={() => setLoginModalShow(false)} />
       <RegisterModal isOpen={registerModalShow} onClose={() => setRegisterModalShow(false)} />
-    </navbar>
+    </div>
   );
 };
 

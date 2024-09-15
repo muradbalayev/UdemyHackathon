@@ -4,45 +4,45 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import ForgotPassword from "./ForgotPassword/ForgotPassword";
 import { useLoginMutation } from "../redux/services/loginApi"; // Import the hook
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/slices/userSlice";
+import { setTokens } from "../redux/slices/authSlice";
 
 const LoginModal = ({ isOpen, onClose }) => {
-  const [forgotPassModalShow, setForgotPassModalShow] = useState(false);
+    const [forgotPassModalShow, setForgotPassModalShow] = useState(false);
+    const dispatch = useDispatch()
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const [login, { isLoading }] = useLoginMutation(); // Use the login mutation hook
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
     });
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const [login, { isLoading }] = useLoginMutation(); // Use the login mutation hook
 
-    try {
-      // Send data to the backend using the login mutation hook
-      const response = await login(formData).unwrap();
-      console.log(response)
-      toast.success("Thanks for signing in!");
-      setFormData({ email: "", password: "" }); // Clear the input fields
-      onClose(); // Close modal on success
-    } catch (err) {
-      // Handle request error
-      if ('data' in err) {
-        toast.error(err.data.message);
-      } else {
-        toast.error('Error verifying OTP');
-      }
-      toast.error('Error signing in');
-    }
-  };
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            // Send data to the backend using the login mutation hook
+          const response =   await login(formData).unwrap();
+          console.log(response)
+            toast.success("Thanks for signing in!");
+            setFormData({ email: "", password: "" }); // Clear the input fields
+            onClose(); // Close modal on success
+        } catch (err) {
+            // Handle request error
+            console.error("Request error:", err);
+            toast.error('Error signing in');
+        }
+    };
 
   return (
     <>
