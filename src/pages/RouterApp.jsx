@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AdminPage from './Admin/AdminPage'
 import Users from './Users/Users'
 import { Toaster } from 'react-hot-toast'
+import VideoPage from './Users/VideoPage/VideoPage'
 
 const RouterApp = () => {
     return (
@@ -24,6 +25,7 @@ const RouterApp = () => {
                 <Routes>
                     <Route element={<Users />} path="/*" />
                     <Route element={<AdminPage />} path='/admin' />
+                    <Route element={<VideoPage/>} path='/course/video'/>
                 </Routes>
             </BrowserRouter>
         </div>

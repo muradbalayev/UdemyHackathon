@@ -1,0 +1,16 @@
+.LearnFrom {
+  &__img-box-text {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    font-size: 22px;
+    color: white;
+  }
+
+  &__img-box {
+    position: relative;
+    img {
+      width: 100%;
+    }
+  }
+}
