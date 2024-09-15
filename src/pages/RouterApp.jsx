@@ -5,7 +5,7 @@ import { Toaster } from 'react-hot-toast'
 
 const RouterApp = () => {
     return (
-        <div className='h-screen max-w-[1920px] mx-auto overflow-y-auto'>
+        <div className='h-screen max-w-[1920px] mx-auto'>
             <Toaster
                 containerClassName="toast"
                 position="top-center"

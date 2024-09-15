@@ -1,48 +1,50 @@
+import { FaCheck } from "react-icons/fa6";
+
 function CreativeLearning() {
   return (
-    <>
-      <h1 className="text-4xl font-bold text-center mb-8">Creative Learning Made Easy</h1>
+    <div className="w-full mt-16 flex flex-col items-center">
+      <div className="w-full flex md:flex-row flex-col mx-auto justify-around">
+      <h1 className="text-6xl font-bold mb-8 max-w-72 text-left">Creative Learning Made Easy</h1>
 
-      <ul className="list-disc space-y-4 flex flex-col items-center mb-20 mt-10">
+      <ul className="list-disc gap-4 flex flex-col items-start mb-20 mt-10">
         <li className="flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-          <span className="ml-2">Taught by creative pros and industry icons</span>
+         <FaCheck size={32} color="black" className="bg-[#00FF84] rounded-full p-2"/>
+          <span className="ml-2 text-2xl">Taught by creative pros and industry icons</span>
         </li>
         <li className="flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-          <span className="ml-2">Learning Paths to help you achieve your goals</span>
+        <FaCheck size={32} color="black" className="bg-[#00FF84] rounded-full p-2"/>
+          <span className="ml-2 text-2xl">Learning Paths to help you achieve your goals</span>
         </li>
         <li className="flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-          <span className="ml-2">Certificates to celebrate your accomplishments</span>
+        <FaCheck size={32} color="black" className="bg-[#00FF84] rounded-full p-2"/>
+          <span className="ml-2 text-2xl">Certificates to celebrate your accomplishments</span>
         </li>
       </ul>
+      </div>
 
-      <div className="grid grid-cols-4 gap-4 mt-8">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold">25K+</h2>
-          <p>Classes</p>
+      <div className="grid w-full grid-cols-4 gap-10 mt-8 px-16">
+        <div className="text-center bg-[#232424] rounded py-4 px-6">
+          <h2 className="text-4xl font-bold text-[#00FF84]">25K+</h2>
+          <p className="text-2xl">Classes</p>
         </div>
-        <div className="text-center">
-          <h2 className="text-2xl font-bold">600K+</h2>
-          <p>Members</p>
+        <div className="text-center bg-[#232424] rounded py-4 px-6">
+          <h2 className="text-4xl font-bold text-[#00FF84]">600K+</h2>
+          <p className="text-2xl">Members</p>
         </div>
-        <div className="text-center">
-          <h2 className="text-2xl font-bold">8K+</h2>
-          <p>Teachers</p>
+        <div className="text-center bg-[#232424] rounded py-4 px-6">
+          <h2 className="text-4xl font-bold text-[#00FF84]">8K+</h2>
+          <p className="text-2xl">Teachers</p>
         </div>
-        <div className="text-center">
-          <h2 className="text-2xl font-bold">4.8 ★★★★★</h2>
-          <p>App Store Rating</p>
+        <div className="text-center bg-[#232424] rounded py-4 px-6 flex items-center flex-col">
+          <h2 className="text-4xl font-bold text-[#00FF84] flex items-center gap-2">4.8 
+            <span className="text-2xl">
+            ★★★★★
+            </span>
+            </h2>
+          <p className="text-2xl">App Store Rating</p>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
