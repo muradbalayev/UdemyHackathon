@@ -15,10 +15,11 @@ function CategoryList() {
           }
         })
         const data = await response.json();
-        setCourses(data);
+        setCourses(data.courses);
         console.log(data);
       } catch (error) {
         console.log(error);
+        setCourses([]);
       }
     }
     fetchCourses();
