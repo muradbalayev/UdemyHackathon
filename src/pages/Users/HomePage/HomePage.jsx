@@ -1,10 +1,10 @@
 import Nav from '../../../components/Nav'
 import { Link } from 'react-router-dom'
-import LearnFrom from './LearnFrom'
 import WhyLowe from './WhyLowe'
 import AskedQuest from './AskedQuest'
 import Footer from './Footer'
 import CreativeLearning from './CreativeLearning'
+import LearnFrom from './LearnFrom/LearnFrom'
 
 const HomePage = () => {
   return (
